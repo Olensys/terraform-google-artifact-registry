@@ -5,7 +5,7 @@ Artifact Registry repository with immutable Docker tags, cleanup policies that k
 ## Opinions
 
 - Docker repositories always have immutable tags (`docker_config.immutable_tags = true`); other formats carry no `docker_config`.
-- Cleanup policies are enforced, not dry-run: for DOCKER, untagged versions older than 7 days are deleted (tags are a Docker concept, so other formats skip this rule); every format always keeps the most recent `keep_last_versions` (default 30) versions are always kept.
+- Cleanup policies are enforced, not dry-run: for DOCKER, untagged versions older than 7 days are deleted (tags are a Docker concept, so other formats skip this rule); every format always keeps the most recent `keep_last_versions` (default 30) versions.
 - IAM is additive and per member: `roles/artifactregistry.reader` for `reader_members`, `roles/artifactregistry.writer` for `writer_members`. Members need a `user:`, `serviceAccount:`, `group:` or `domain:` prefix.
 - `url` is `<location>-docker.pkg.dev/<project>/<name>` for DOCKER and `<location>-<format>.pkg.dev/<project>/<name>` (format lowercased) for NPM, PYTHON and MAVEN; GENERIC repositories have no registry host, so `url` is null.
 - `self_link` is the repository resource name, `projects/<project>/locations/<location>/repositories/<name>`.
