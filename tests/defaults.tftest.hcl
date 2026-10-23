@@ -43,6 +43,24 @@ run "test_no_docker_config_for_python" {
     condition     = output.url == "us-python.pkg.dev/example-project/example"
     error_message = "Non-Docker url must use the lowercase format host."
   }
+
+  assert {
+    condition     = length(output.cleanup_policies) == 1 && length([for p in output.cleanup_policies : p if p.id == "delete-untagged"]) == 0 && output.cleanup_policies[0].id == "keep-recent"
+    error_message = "Non-Docker formats must get keep-recent only, never delete-untagged."
+  }
+}
+
+run "test_generic_has_no_url" {
+  command = plan
+
+  variables {
+    format = "GENERIC"
+  }
+
+  assert {
+    condition     = output.url == null
+    error_message = "GENERIC repositories have no registry host, url must be null."
+  }
 }
 
 run "test_cleanup_keep_n" {

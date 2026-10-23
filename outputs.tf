@@ -14,8 +14,8 @@ output "self_link" {
 }
 
 output "url" {
-  description = "Registry URL: <location>-docker.pkg.dev/<project>/<name> for DOCKER, <location>-<format>.pkg.dev/<project>/<name> otherwise. Null when create is false."
-  value       = var.create ? "${local.url_host}/${var.project_id}/${var.name}" : null
+  description = "Registry URL: <location>-docker.pkg.dev/<project>/<name> for DOCKER, <location>-<format>.pkg.dev/<project>/<name> for NPM, PYTHON and MAVEN. Null for GENERIC (no registry host) and when create is false."
+  value       = var.create && var.format != "GENERIC" ? "${local.url_host}/${var.project_id}/${var.name}" : null
 }
 
 output "labels" {
@@ -24,6 +24,6 @@ output "labels" {
 }
 
 output "cleanup_policies" {
-  description = "The cleanup policies passed to the repository (delete-untagged after 7 days, keep-recent). Null when create is false."
+  description = "The cleanup policies passed to the repository (delete-untagged after 7 days for DOCKER only, keep-recent for every format). Null when create is false."
   value       = var.create ? local.cleanup_policies : null
 }

@@ -3,23 +3,28 @@ locals {
 
   is_docker = var.format == "DOCKER"
 
-  # Uniform shape so one dynamic block renders both policies.
-  cleanup_policies = [
-    {
-      id         = "delete-untagged"
-      action     = "DELETE"
-      tag_state  = "UNTAGGED"
-      older_than = "604800s"
-      keep_count = null
-    },
-    {
-      id         = "keep-recent"
-      action     = "KEEP"
-      tag_state  = null
-      older_than = null
-      keep_count = var.keep_last_versions
-    },
-  ]
+  # Uniform shape so one dynamic block renders every policy. Tags are a
+  # Docker concept, so delete-untagged only applies to DOCKER repositories.
+  cleanup_policies = concat(
+    local.is_docker ? [
+      {
+        id         = "delete-untagged"
+        action     = "DELETE"
+        tag_state  = "UNTAGGED"
+        older_than = "604800s"
+        keep_count = null
+      },
+    ] : [],
+    [
+      {
+        id         = "keep-recent"
+        action     = "KEEP"
+        tag_state  = null
+        older_than = null
+        keep_count = var.keep_last_versions
+      },
+    ],
+  )
 
   url_host = local.is_docker ? "${var.location}-docker.pkg.dev" : "${var.location}-${lower(var.format)}.pkg.dev"
 }

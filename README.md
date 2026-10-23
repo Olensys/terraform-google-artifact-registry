@@ -5,9 +5,9 @@ Artifact Registry repository with immutable Docker tags, cleanup policies that k
 ## Opinions
 
 - Docker repositories always have immutable tags (`docker_config.immutable_tags = true`); other formats carry no `docker_config`.
-- Cleanup policies are enforced, not dry-run: untagged versions older than 7 days are deleted, and the most recent `keep_last_versions` (default 30) versions are always kept.
+- Cleanup policies are enforced, not dry-run: for DOCKER, untagged versions older than 7 days are deleted (tags are a Docker concept, so other formats skip this rule); every format always keeps the most recent `keep_last_versions` (default 30) versions are always kept.
 - IAM is additive and per member: `roles/artifactregistry.reader` for `reader_members`, `roles/artifactregistry.writer` for `writer_members`. Members need a `user:`, `serviceAccount:`, `group:` or `domain:` prefix.
-- `url` is `<location>-docker.pkg.dev/<project>/<name>` for DOCKER and `<location>-<format>.pkg.dev/<project>/<name>` (format lowercased) for other formats.
+- `url` is `<location>-docker.pkg.dev/<project>/<name>` for DOCKER and `<location>-<format>.pkg.dev/<project>/<name>` (format lowercased) for NPM, PYTHON and MAVEN; GENERIC repositories have no registry host, so `url` is null.
 - `self_link` is the repository resource name, `projects/<project>/locations/<location>/repositories/<name>`.
 
 ## Usage
@@ -75,10 +75,10 @@ No modules.
 
 | Name | Description |
 | ---- | ----------- |
-| <a name="output_cleanup_policies"></a> [cleanup\_policies](#output\_cleanup\_policies) | The cleanup policies passed to the repository (delete-untagged after 7 days, keep-recent). Null when create is false. |
+| <a name="output_cleanup_policies"></a> [cleanup\_policies](#output\_cleanup\_policies) | The cleanup policies passed to the repository (delete-untagged after 7 days for DOCKER only, keep-recent for every format). Null when create is false. |
 | <a name="output_id"></a> [id](#output\_id) | Terraform ID of the repository, projects/<project>/locations/<location>/repositories/<name>. Null when create is false. |
 | <a name="output_labels"></a> [labels](#output\_labels) | Labels applied to the repository, with context.extra\_tags merged in. Null when create is false. |
 | <a name="output_name"></a> [name](#output\_name) | Repository id (the name passed in). Null when create is false. |
 | <a name="output_self_link"></a> [self\_link](#output\_self\_link) | Resource name of the repository, projects/<project>/locations/<location>/repositories/<name>. Null when create is false. |
-| <a name="output_url"></a> [url](#output\_url) | Registry URL: <location>-docker.pkg.dev/<project>/<name> for DOCKER, <location>-<format>.pkg.dev/<project>/<name> otherwise. Null when create is false. |
+| <a name="output_url"></a> [url](#output\_url) | Registry URL: <location>-docker.pkg.dev/<project>/<name> for DOCKER, <location>-<format>.pkg.dev/<project>/<name> for NPM, PYTHON and MAVEN. Null for GENERIC (no registry host) and when create is false. |
 <!-- END_TF_DOCS -->
