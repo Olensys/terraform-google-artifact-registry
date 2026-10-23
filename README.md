@@ -1,6 +1,6 @@
-# __NAME__
+# terraform-google-artifact-registry
 
-__DESCRIPTION__
+Artifact Registry repository with immutable Docker tags, cleanup policies that keep the last N versions, and reader and writer IAM
 
 ## Opinions
 
@@ -10,7 +10,7 @@ __DESCRIPTION__
 
 ```hcl
 module "this" {
-  source = "git::https://github.com/Olensys/__NAME__.git?ref=v1.0.0"
+  source = "git::https://github.com/Olensys/terraform-google-artifact-registry.git?ref=v1.0.0"
 
   name = "example"
   context = {

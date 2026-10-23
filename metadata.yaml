@@ -1,10 +1,10 @@
-name: __NAME__
-cloud: __CLOUD__          # aws | google | common
+name: terraform-google-artifact-registry
+cloud: google          # aws | google | common
 tier: capability          # primitive | capability | blueprint
 maturity: experimental    # experimental | stable | deprecated
-description: __DESCRIPTION__
+description: Artifact Registry repository with immutable Docker tags, cleanup policies that keep the last N versions, and reader and writer IAM
 owners: [platform]
 upstream: null            # e.g. "terraform-aws-modules/s3-bucket/aws 5.17.0"
 pairs_with: null          # e.g. "terraform-google-gcs-bucket"
-registry_name: __NAME__
+registry_name: terraform-google-artifact-registry
 deprecated: null          # { removal: YYYY-MM-DD, replacement: <repo> }
