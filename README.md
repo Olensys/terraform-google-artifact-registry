@@ -9,23 +9,24 @@ Artifact Registry repository with immutable Docker tags, cleanup policies that k
 - IAM is additive and per member: `roles/artifactregistry.reader` for `reader_members`, `roles/artifactregistry.writer` for `writer_members`. Members need a `user:`, `serviceAccount:`, `group:` or `domain:` prefix.
 - `url` is `<location>-docker.pkg.dev/<project>/<name>` for DOCKER and `<location>-<format>.pkg.dev/<project>/<name>` (format lowercased) for NPM, PYTHON and MAVEN; GENERIC repositories have no registry host, so `url` is null.
 - `self_link` is the repository resource name, `projects/<project>/locations/<location>/repositories/<name>`.
+- `context.extra_tags` keys and values are normalised to valid GCP label syntax (lowercase, `[^a-z0-9_-]` → `-`, 63 chars); `labels` are applied verbatim and win.
 
 ## Usage
 
 ```hcl
-module "this" {
-  source = "git::https://github.com/Olensys/terraform-google-artifact-registry.git?ref=v1.0.0"
+module "naming" {
+  source  = "git::https://github.com/Olensys/terraform-null-naming.git?ref=v1.0.1"
+  context = var.context
+}
 
-  name       = "example"
+module "this" {
+  source = "git::https://github.com/Olensys/terraform-google-artifact-registry.git?ref=v1.1.0"
+
+  name       = module.naming.name
   project_id = "my-project"
   location   = "us"
-  context = {
-    organization = "olensys"
-    environment  = "dev"
-    application  = "example"
-    owner        = "platform"
-    cost_center  = "eng"
-  }
+  context = var.context
+  labels  = module.naming.labels
 }
 ```
 
