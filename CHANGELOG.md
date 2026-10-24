@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.1.1](https://github.com/Olensys/terraform-google-artifact-registry/compare/v1.1.0...v1.1.1) (2026-10-24)
+
+
+### Bug Fixes
+
+* **examples:** pin naming module to v1.0.1 ([fddd5bb](https://github.com/Olensys/terraform-google-artifact-registry/commit/fddd5bb64084ba6a0b9bb3983da6013c8d395565))
+* run integration on change and weekly instead of nightly ([9aff8db](https://github.com/Olensys/terraform-google-artifact-registry/commit/9aff8dbdfd85c574cb84c873510df741ec863969))
+
 ## 1.1.0
 
 ### Fixes
