@@ -1,7 +1,7 @@
 name: terraform-google-artifact-registry
 cloud: google          # aws | google | common
 tier: capability          # primitive | capability | blueprint
-maturity: experimental    # experimental | stable | deprecated
+maturity: stable    # experimental | stable | deprecated
 description: Artifact Registry repository with immutable Docker tags, cleanup policies that keep the last N versions, and reader and writer IAM
 owners: [platform]
 upstream: null            # e.g. "terraform-aws-modules/s3-bucket/aws 5.17.0"
