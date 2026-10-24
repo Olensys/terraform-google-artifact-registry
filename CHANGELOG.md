@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.2](https://github.com/Olensys/terraform-google-artifact-registry/compare/v1.1.1...v1.1.2) (2026-10-24)
+
+
+### Bug Fixes
+
+* **examples:** unique application slug so concurrent integration runs do not collide ([#2](https://github.com/Olensys/terraform-google-artifact-registry/issues/2)) ([62c3457](https://github.com/Olensys/terraform-google-artifact-registry/commit/62c3457e2430ea7962258496e99c0e034b06cc2c))
+
 ## [1.1.1](https://github.com/Olensys/terraform-google-artifact-registry/compare/v1.1.0...v1.1.1) (2026-10-24)
 
 
