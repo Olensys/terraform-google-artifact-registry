@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.2.0](https://github.com/Olensys/terraform-google-artifact-registry/compare/v1.1.2...v1.2.0) (2026-11-14)
+
+
+### Features
+
+* add immutable_tags pass-through input ([#5](https://github.com/Olensys/terraform-google-artifact-registry/issues/5)) ([5a92633](https://github.com/Olensys/terraform-google-artifact-registry/commit/5a926334ab11918a3face3f6df87da76271ab88c))
+
 ## [1.1.2](https://github.com/Olensys/terraform-google-artifact-registry/compare/v1.1.1...v1.1.2) (2026-10-24)
 
 
