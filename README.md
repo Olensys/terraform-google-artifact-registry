@@ -4,7 +4,7 @@ Artifact Registry repository with immutable Docker tags, cleanup policies that k
 
 ## Opinions
 
-- Docker repositories always have immutable tags (`docker_config.immutable_tags = true`); other formats carry no `docker_config`.
+- Docker repositories have immutable tags by default (`immutable_tags = true`, the library's secure default). Setting `immutable_tags = false` is an explicit opt-out, meant for adopting an existing repository whose tags are mutable; other formats carry no `docker_config`.
 - Cleanup policies are enforced, not dry-run: for DOCKER, untagged versions older than 7 days are deleted (tags are a Docker concept, so other formats skip this rule); every format always keeps the most recent `keep_last_versions` (default 30) versions.
 - IAM is additive and per member: `roles/artifactregistry.reader` for `reader_members`, `roles/artifactregistry.writer` for `writer_members`. Members need a `user:`, `serviceAccount:`, `group:` or `domain:` prefix.
 - `url` is `<location>-docker.pkg.dev/<project>/<name>` for DOCKER and `<location>-<format>.pkg.dev/<project>/<name>` (format lowercased) for NPM, PYTHON and MAVEN; GENERIC repositories have no registry host, so `url` is null.
@@ -29,6 +29,19 @@ module "this" {
   labels  = module.naming.labels
 }
 ```
+
+## Adopting an existing repository
+
+Every input has a default equal to the value the module used to hard-code, so existing callers see no plan diff. To import a repository created elsewhere, match `format`, `location`, `kms_key_name` and `immutable_tags` to its live settings and run:
+
+```hcl
+import {
+  to = module.this.google_artifact_registry_repository.this[0]
+  id = "projects/my-project/locations/<location>/repositories/<name>"
+}
+```
+
+The cleanup policies and the description are then updated in place on the first apply.
 
 <!-- BEGIN_TF_DOCS -->
 ## Requirements
@@ -66,6 +79,7 @@ No modules.
 | <a name="input_project_id"></a> [project\_id](#input\_project\_id) | GCP project that will own the repository. | `string` | n/a | yes |
 | <a name="input_create"></a> [create](#input\_create) | Whether to create any resources. Set false to plan nothing. | `bool` | `true` | no |
 | <a name="input_format"></a> [format](#input\_format) | Repository format: DOCKER, NPM, PYTHON, MAVEN or GENERIC. | `string` | `"DOCKER"` | no |
+| <a name="input_immutable_tags"></a> [immutable\_tags](#input\_immutable\_tags) | Whether Docker image tags are immutable (docker\_config.immutable\_tags). Default true is the library's secure default; set false only to adopt an existing repository whose tags are mutable. Ignored for non-DOCKER formats. | `bool` | `true` | no |
 | <a name="input_keep_last_versions"></a> [keep\_last\_versions](#input\_keep\_last\_versions) | Number of most recent versions the cleanup policy always keeps. | `number` | `30` | no |
 | <a name="input_kms_key_name"></a> [kms\_key\_name](#input\_kms\_key\_name) | Cloud KMS crypto key (projects/.../cryptoKeys/...) used to encrypt the repository. Null uses Google-managed encryption. | `string` | `null` | no |
 | <a name="input_labels"></a> [labels](#input\_labels) | Labels merged onto the repository, applied last. | `map(string)` | `{}` | no |

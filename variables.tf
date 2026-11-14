@@ -86,6 +86,12 @@ variable "kms_key_name" {
   default     = null
 }
 
+variable "immutable_tags" {
+  description = "Whether Docker image tags are immutable (docker_config.immutable_tags). Default true is the library's secure default; set false only to adopt an existing repository whose tags are mutable. Ignored for non-DOCKER formats."
+  type        = bool
+  default     = true
+}
+
 variable "labels" {
   description = "Labels merged onto the repository, applied last."
   type        = map(string)

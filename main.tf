@@ -48,7 +48,7 @@ resource "google_artifact_registry_repository" "this" {
     for_each = local.is_docker ? [1] : []
 
     content {
-      immutable_tags = true
+      immutable_tags = var.immutable_tags
     }
   }
 
